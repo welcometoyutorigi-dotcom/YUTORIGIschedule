@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>営業日・予約案内 | YUTORIGI 〜遊鳥木〜</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Zen+Old+Mincho:wght@400;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sage: #8aaa87;
+  --sage-light: #b8d0b4;
+  --sage-pale: #e4efe2;
+  --cream: #f7f2ea;
+  --beige: #e8e0d0;
+  --sky: #a0c4d0;
+  --sky-light: #c8dfe8;
+  --sky-pale: #e6f2f6;
+  --pink: #e8a8b8;
+  --pink-pale: #fdf0f4;
+  --pink-light: #f5d8e0;
+  --text: #4a4035;
+  --text-light: #8a7a6a;
+  --white: #fdfcfa;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif JP',serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+
+/* ── HEADER ── */
+.site-header{text-align:center;padding:26px 24px 20px;background:linear-gradient(160deg,#fdf0f4 0%,#f0f7ef 100%);position:relative;overflow:hidden;}
+.site-header .logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.22em;color:var(--text);}
+.site-header .logo-sub{font-size:.64rem;color:var(--text-light);letter-spacing:.28em;margin-top:2px;}
+.header-leaf{position:absolute;pointer-events:none;opacity:.1;}
+
+/* ── HERO ── */
+.hero{
+  position:relative;padding:56px 24px 64px;
+  text-align:center;overflow:hidden;
+  background:linear-gradient(160deg,#fdf5f7 0%,#f0f7ef 40%,#e8f4f8 100%);
+}
+.hero-wc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.hero-content{position:relative;z-index:2;max-width:540px;margin:0 auto;}
+.hero-month{font-family:'Cormorant Garamond',serif;font-size:.72rem;letter-spacing:.42em;color:var(--pink);text-transform:uppercase;margin-bottom:10px;animation:fadeUp .8s ease both;}
+.hero-title{font-family:'Zen Old Mincho',serif;font-size:clamp(1.6rem,6vw,2.6rem);font-weight:700;line-height:1.4;color:var(--text);margin-bottom:8px;animation:fadeUp .8s .15s ease both;}
+.hero-line{width:44px;height:1.5px;background:linear-gradient(to right,var(--pink),var(--sage));margin:16px auto;animation:fadeUp .8s .25s ease both;}
+.hero-sub{font-size:clamp(.78rem,2vw,.86rem);color:var(--text-light);line-height:2.4;animation:fadeUp .8s .35s ease both;}
+.hero-scroll{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--sage);font-size:.58rem;letter-spacing:.22em;animation:fadeIn 1.5s 1s both;}
+.hero-scroll::after{content:'';width:1px;height:28px;background:linear-gradient(to bottom,var(--sage),transparent);animation:scrollLine 1.8s ease-in-out infinite;}
+
+/* ── SECTION ── */
+.section-label{font-family:'Cormorant Garamond',serif;font-size:.66rem;letter-spacing:.42em;color:var(--sage);text-transform:uppercase;margin-bottom:8px;}
+.section-title{font-family:'Zen Old Mincho',serif;font-size:clamp(1.1rem,3vw,1.35rem);font-weight:700;line-height:1.8;color:var(--text);margin-bottom:6px;}
+.section-line{width:38px;height:1px;background:linear-gradient(to right,var(--pink),var(--sage));margin:0 auto 36px;}
+.leaf-deco{position:absolute;pointer-events:none;}
+
+/* ── 営業時間案内 ── */
+.info-section{padding:64px 24px;background:var(--white);text-align:center;position:relative;overflow:hidden;}
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:580px;margin:0 auto 0;}
+.info-card{background:var(--cream);border-radius:18px;padding:24px 20px;border:1px solid var(--beige);text-align:center;}
+.info-card .iicon{font-size:1.8rem;margin-bottom:10px;display:block;}
+.info-card h3{font-family:'Zen Old Mincho',serif;font-size:.9rem;color:var(--text);margin-bottom:6px;}
+.info-card p{font-size:.76rem;line-height:1.9;color:var(--text-light);}
+.info-card .itime{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--sage);letter-spacing:.08em;margin-top:6px;}
+
+/* ══════════════════════════════════════
+  カレンダーセクション
+  ── 月を追加するときはこのブロックをコピー
+══════════════════════════════════════ */
+.calendar-section{padding:64px 24px;background:linear-gradient(160deg,var(--cream) 0%,var(--white) 100%);position:relative;overflow:hidden;}
+.calendar-inner{max-width:680px;margin:0 auto;}
+
+/* 月ブロック */
+.month-block{margin-bottom:52px;}
+.month-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:24px;
+}
+.month-header::before,.month-header::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,var(--beige),transparent);}
+.month-header span{
+  font-family:'Cormorant Garamond',serif;
+  font-size:.76rem;letter-spacing:.35em;
+  color:var(--pink);white-space:nowrap;
+}
+
+/* 日付リスト */
+.day-list{display:flex;flex-direction:column;gap:10px;}
+.day-item{
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.9);
+  border-radius:14px;padding:14px 20px;
+  border:1px solid var(--beige);
+  transition:transform .2s,box-shadow .2s;
+  gap:14px;flex-wrap:wrap;
+}
+.day-item:hover{transform:translateX(4px);box-shadow:0 4px 14px rgba(138,170,135,.12);}
+
+/* 日付タイプ別の左ライン */
+.day-item.available{border-left:4px solid var(--sage);}
+.day-item.event{border-left:4px solid var(--pink);}
+.day-item.zoom{border-left:4px solid var(--sky);}
+.day-item.both{border-left:4px solid var(--sage);background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(230,242,246,.4));}
+
+.day-date{
+  font-family:'Zen Old Mincho',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--text);white-space:nowrap;
+  min-width:140px;
+}
+.day-tags{display:flex;flex-wrap:wrap;gap:6px;flex:1;}
+.tag{font-size:.64rem;padding:3px 10px;border-radius:10px;white-space:nowrap;letter-spacing:.06em;}
+.tag-face{background:var(--sage-pale);color:#5a8a57;border:1px solid var(--sage-light);}
+.tag-zoom{background:var(--sky-pale);color:#4a8898;border:1px solid var(--sky-light);}
+.tag-event{background:var(--pink-pale);color:#c06878;border:1px solid var(--pink-light);}
+.tag-time{background:var(--cream);color:var(--text-light);border:1px solid var(--beige);}
+
+/* ── 予約ボタンエリア ── */
+.book-section{padding:64px 24px;background:linear-gradient(160deg,#f0f8ef 0%,#e8f4f8 100%);text-align:center;position:relative;overflow:hidden;}
+.book-inner{max-width:540px;margin:0 auto;}
+.book-note{font-size:.78rem;color:var(--text-light);line-height:2.3;margin-bottom:32px;}
+.book-note strong{color:var(--text);}
+
+.book-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;}
+.book-card{background:rgba(255,255,255,.85);border-radius:20px;padding:28px 22px;border:1px solid var(--beige);text-align:center;}
+.book-card .bicon{font-size:1.8rem;margin-bottom:10px;display:block;}
+.book-card h3{font-family:'Zen Old Mincho',serif;font-size:.92rem;color:var(--text);margin-bottom:8px;}
+.book-card p{font-size:.74rem;line-height:1.9;color:var(--text-light);margin-bottom:18px;}
+.book-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;padding:13px 20px;border-radius:50px;
+  font-family:'Noto Serif JP',serif;font-size:.78rem;
+  letter-spacing:.08em;text-decoration:none;
+  transition:all .3s;border:none;cursor:pointer;
+}
+.book-btn-face{background:linear-gradient(135deg,var(--sage),#6a9067);color:white;box-shadow:0 5px 16px rgba(138,170,135,.35);}
+.book-btn-face:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(138,170,135,.45);}
+.book-btn-zoom{background:linear-gradient(135deg,var(--sky),#70a0b0);color:white;box-shadow:0 5px 16px rgba(160,196,208,.35);}
+.book-btn-zoom:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(160,196,208,.45);}
+
+.book-sub{font-size:.72rem;color:var(--text-light);line-height:2.1;}
+.book-line-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,#06c755,#04a845);
+  color:white;padding:13px 30px;border-radius:50px;
+  font-size:.78rem;letter-spacing:.08em;text-decoration:none;
+  box-shadow:0 5px 16px rgba(6,199,85,.26);
+  transition:all .3s;margin-top:10px;
+}
+.book-line-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(6,199,85,.36);}
+
+/* ── FOOTER ── */
+footer{padding:36px 24px;background:linear-gradient(160deg,#e4efe2,#e2eef5);text-align:center;position:relative;overflow:hidden;}
+footer .logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.22em;color:var(--text);margin-bottom:3px;}
+footer .logo-jp{font-size:.64rem;color:var(--text-light);letter-spacing:.28em;margin-bottom:12px;}
+footer p{font-size:.65rem;color:var(--text-light);line-height:2;}
+footer a{color:var(--sage);text-decoration:none;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollLine{0%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1)}100%{opacity:0}}
+.fade-in-up{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.fade-in-up.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:480px){
+  .day-date{font-size:.9rem;min-width:120px;}
+  .book-card{padding:22px 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ ヘッダー ══ -->
+<header class="site-header">
+  <svg class="header-leaf" style="top:-5px;right:-18px;width:120px;transform:rotate(5deg)" viewBox="0 0 160 250">
+    <path d="M80,0 C80,0 145,62 128,155 C111,248 22,260 22,260 C22,260 4,158 46,96 C62,46 80,0 80,0Z" fill="#9aad97"/>
+    <line x1="80" y1="14" x2="60" y2="235" stroke="#7a9877" stroke-width="2" opacity=".6"/>
+  </svg>
+  <p class="logo">YUTORIGI</p>
+  <p class="logo-sub">〜 遊 鳥 木 〜　ヒーリング ＆ リラクゼーションサロン</p>
+</header>
+
+<!-- ══ ヒーロー ══ -->
+<section class="hero">
+  <svg class="hero-wc" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice">
+    <ellipse cx="55" cy="75" rx="160" ry="130" fill="rgba(235,170,185,.2)" transform="rotate(-12,55,75)"/>
+    <ellipse cx="745" cy="400" rx="170" ry="135" fill="rgba(235,170,185,.18)" transform="rotate(15,745,400)"/>
+    <ellipse cx="75" cy="400" rx="145" ry="110" fill="rgba(205,228,160,.18)" transform="rotate(-8,75,400)"/>
+    <ellipse cx="710" cy="50" rx="115" ry="90" fill="rgba(205,228,160,.15)" transform="rotate(10,710,50)"/>
+    <g opacity=".1" transform="translate(640,0)">
+      <path d="M70,0 C70,0 125,55 110,135 C95,215 18,226 18,226 C18,226 2,140 38,84 C54,42 70,0 70,0Z" fill="#e8a8b8"/>
+      <line x1="70" y1="12" x2="54" y2="204" stroke="#c88898" stroke-width="1.8" opacity=".6"/>
+    </g>
+    <g opacity=".1" transform="translate(-20,580) rotate(168)">
+      <path d="M70,0 C70,0 125,55 110,135 C95,215 18,226 18,226 C18,226 2,140 38,84 C54,42 70,0 70,0Z" fill="#9aad97"/>
+    </g>
+  </svg>
+  <div class="hero-content">
+    <p class="hero-month">Business Calendar</p>
+    <h1 class="hero-title">営業日・予約案内</h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">
+      基本的に土日のみ営業しています<br>
+      ご予約はLINEよりお気軽にどうぞ😊
+    </p>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ══ 営業時間 ══ -->
+<section class="info-section">
+  <svg class="leaf-deco" style="top:-8px;right:-22px;width:180px;opacity:.09;transform:rotate(5deg)" viewBox="0 0 160 250">
+    <path d="M80,0 C80,0 145,62 128,155 C111,248 22,260 22,260 C22,260 4,158 46,96 C62,46 80,0 80,0Z" fill="#9aad97"/>
+    <line x1="80" y1="14" x2="60" y2="235" stroke="#7a9877" stroke-width="2" opacity=".6"/>
+    <line x1="74" y1="60" x2="40" y2="100" stroke="#7a9877" stroke-width="1.5" opacity=".5"/>
+  </svg>
+
+  <p class="section-label fade-in-up">Hours</p>
+  <h2 class="section-title fade-in-up">営業時間</h2>
+  <div class="section-line fade-in-up"></div>
+
+  <div class="info-cards fade-in-up" style="margin-top:0;">
+    <div class="info-card">
+      <span class="iicon">🏡</span>
+      <h3>対面サロン</h3>
+      <p>土・日曜日</p>
+      <p class="itime">10:00 〜 16:00</p>
+    </div>
+    <div class="info-card">
+      <span class="iicon">💻</span>
+      <h3>Zoomセッション</h3>
+      <p>土・日曜日</p>
+      <p class="itime">10:00 〜 16:00</p>
+    </div>
+  </div>
+
+  <p style="font-size:.74rem;color:var(--text-light);margin-top:20px;line-height:2.1;">
+    ※ イベント参加日はサロン予約をお受けできない場合があります<br>
+    ※ ご希望の日時はLINEにてご相談ください
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════
+  カレンダー
+  ── 月を追加するときは month-block をコピー
+  ── day-item のクラスは以下から選んでください
+     .available → 対面予約可（緑）
+     .zoom      → Zoom予約可（水色）
+     .both      → 対面・Zoom両方可（緑）
+     .event     → イベント（ピンク）
+══════════════════════════════════════ -->
+<section class="calendar-section">
+  <svg class="leaf-deco" style="top:0;right:-18px;width:170px;opacity:.07" viewBox="0 0 160 250">
+    <path d="M80,0 C80,0 145,62 128,155 C111,248 22,260 22,260 C22,260 4,158 46,96 C62,46 80,0 80,0Z" fill="#9aad97"/>
+  </svg>
+  <svg class="leaf-deco" style="bottom:0;left:-18px;width:160px;opacity:.07;transform:rotate(175deg)" viewBox="0 0 160 250">
+    <path d="M80,0 C80,0 145,62 128,155 C111,248 22,260 22,260 C22,260 4,158 46,96 C62,46 80,0 80,0Z" fill="#a0c4d0"/>
+  </svg>
+
+  <div class="calendar-inner">
+    <div style="text-align:center;margin-bottom:40px;">
+      <p class="section-label">Schedule</p>
+      <h2 class="section-title">営業日カレンダー</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- 凡例 -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px;" class="fade-in-up">
+      <span class="tag tag-face">🏡 対面予約可</span>
+      <span class="tag tag-zoom">💻 Zoom予約可</span>
+      <span class="tag tag-event">🌸 イベント</span>
+    </div>
+
+
+    <!-- ▼▼▼ 4月 ▼▼▼ -->
+    <div class="month-block fade-in-up">
+      <div class="month-header"><span>April 2026　4月</span></div>
+      <div class="day-list">
+
+        <div class="day-item both">
+          <div class="day-date">4日（土）</div>
+          <div class="day-tags">
+            <span class="tag tag-face">🏡 対面予約可</span>
+            <span class="tag tag-zoom">💻 Zoom予約可</span>
+            <span class="tag tag-time">10:00〜16:00</span>
+          </div>
+        </div>
+
+        <div class="day-item both">
+          <div class="day-date">5日（日）</div>
+          <div class="day-tags">
+            <span class="tag tag-face">🏡 対面予約可</span>
+            <span class="tag tag-zoom">💻 Zoom予約可</span>
+            <span class="tag tag-time">10:00〜16:00</span>
+          </div>
+        </div>
+
+        <div class="day-item both">
+          <div class="day-date">18日（土）</div>
+          <div class="day-tags">
+            <span class="tag tag-face">🏡 対面予約可</span>
+            <span class="tag tag-zoom">💻 Zoom予約可</span>
+            <span class="tag tag-time">10:00〜16:00</span>
+          </div>
+        </div>
+
+        <div class="day-item event">
+          <div class="day-date">19日（日）</div>
+          <div class="day-tags">
+            <span class="tag tag-event">🌸 イベント参加日</span>
+            <span class="tag" style="background:#fff0f0;color:#c06878;border:1px solid #f5c0c8;font-size:.64rem;padding:3px 10px;border-radius:10px;">とやまCheerMagic</span>
+          </div>
+        </div>
+
+        <div class="day-item both">
+          <div class="day-date">25日（土）</div>
+          <div class="day-tags">
+            <span class="tag tag-face">🏡 対面予約可</span>
+            <span class="tag tag-zoom">💻 Zoom予約可</span>
+            <span class="tag tag-time">10:00〜16:00</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ▲▲▲ 4月ここまで ▲▲▲ -->
+
+
+    <!-- ▼▼▼ 5月（内容が決まったら書き換えてください） ▼▼▼ -->
+    <div class="month-block fade-in-up">
+      <div class="month-header"><span>May 2026　5月</span></div>
+      <div class="day-list">
+
+        <div class="day-item event">
+          <div class="day-date">3日（日）</div>
+          <div class="day-tags">
+            <span class="tag tag-event">🌸 イベント参加日</span>
+            <span class="tag" style="background:#fff0f0;color:#c06878;border:1px solid #f5c0c8;font-size:.64rem;padding:3px 10px;border-radius:10px;">FEEL THE HEART 金沢</span>
+          </div>
+        </div>
+
+        <div class="day-item event">
+          <div class="day-date">9日（土）</div>
+          <div class="day-tags">
+            <span class="tag tag-event">🌸 サロン開放DAY</span>
+          </div>
+        </div>
+
+        <!-- 5月の通常営業日：決まったら追加してください -->
+        <div class="day-item both" style="opacity:.5;">
+          <div class="day-date" style="font-size:.82rem;color:var(--text-light);">その他の営業日</div>
+          <div class="day-tags">
+            <span class="tag" style="background:#f5f0e8;color:#a09080;border:1px solid #e0d8c8;font-size:.64rem;padding:3px 10px;border-radius:10px;">決まり次第更新します</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ▲▲▲ 5月ここまで ▲▲▲ -->
+
+
+    <!-- ▼▼▼ 6月（内容が決まったら書き換えてください） ▼▼▼ -->
+    <div class="month-block fade-in-up">
+      <div class="month-header"><span>June 2026　6月</span></div>
+      <div class="day-list">
+
+        <div class="day-item event">
+          <div class="day-date">6日（土）</div>
+          <div class="day-tags">
+            <span class="tag tag-event">🌸 イベント参加日</span>
+            <span class="tag" style="background:#fff0f0;color:#c06878;border:1px solid #f5c0c8;font-size:.64rem;padding:3px 10px;border-radius:10px;">巫女縁日 富山</span>
+          </div>
+        </div>
+
+        <div class="day-item both" style="opacity:.5;">
+          <div class="day-date" style="font-size:.82rem;color:var(--text-light);">その他の営業日</div>
+          <div class="day-tags">
+            <span class="tag" style="background:#f5f0e8;color:#a09080;border:1px solid #e0d8c8;font-size:.64rem;padding:3px 10px;border-radius:10px;">決まり次第更新します</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ▲▲▲ 6月ここまで ▲▲▲ -->
+
+  </div>
+</section>
+
+<!-- ══ 予約ボタン ══ -->
+<section class="book-section">
+  <svg class="leaf-deco" style="top:-5px;right:-20px;width:170px;opacity:.08" viewBox="0 0 160 250">
+    <path d="M80,0 C80,0 145,62 128,155 C111,248 22,260 22,260 C22,260 4,158 46,96 C62,46 80,0 80,0Z" fill="#9aad97"/>
+  </svg>
+
+  <div class="book-inner">
+    <p class="section-label fade-in-up">Reservation</p>
+    <h2 class="section-title fade-in-up">ご予約はこちら</h2>
+    <div class="section-line fade-in-up"></div>
+
+    <p class="book-note fade-in-up">
+      ご希望のメニューと日時をLINEでお知らせください😊<br>
+      ボタンを押すと<strong>メッセージが自動入力された状態</strong>でLINEが開きます。<br>
+      そのままお名前とご希望日時を添えて送信してください。
+    </p>
+
+    <div class="book-cards fade-in-up">
+      <div class="book-card">
+        <span class="bicon">🏡</span>
+        <h3>対面予約</h3>
+        <p>リンパケア・スピリチュアル<br>サロンにてご来店</p>
+        <!-- ボタンを押すと「対面予約を希望します」が自動入力 -->
+        <a href="https://line.me/R/oaMessage/@984nhccu/?対面予約を希望します" class="book-btn book-btn-face" target="_blank">
+          📅 対面予約をする
+        </a>
+      </div>
+      <div class="book-card">
+        <span class="bicon">💻</span>
+        <h3>Zoom予約</h3>
+        <p>スピリチュアルカウンセリング<br>全国どこからでも</p>
+        <!-- ボタンを押すと「Zoom予約を希望します」が自動入力 -->
+        <a href="https://line.me/R/oaMessage/@984nhccu/?Zoom予約を希望します" class="book-btn book-btn-zoom" target="_blank">
+          💻 Zoom予約をする
+        </a>
+      </div>
+    </div>
+
+    <div class="fade-in-up" style="background:rgba(255,255,255,.75);border-radius:16px;padding:20px 22px;border:1px solid var(--beige);margin-bottom:0;">
+      <p class="book-sub">
+        ご不明な点はお気軽にお問い合わせください😊<br>
+        公式LINEからいつでもメッセージどうぞ
+      </p>
+      <a href="https://lin.ee/ZNgeYzl" class="book-line-btn" target="_blank">
+        📩 LINEでお問い合わせ
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ フッター ══ -->
+<footer>
+  <svg class="leaf-deco" style="top:-5px;left:-10px;width:110px;opacity:.12" viewBox="0 0 160 250">
+    <path d="M80,0 C80,0 145,62 128,155 C111,248 22,260 22,260 C22,260 4,158 46,96 C62,46 80,0 80,0Z" fill="#9aad97"/>
+  </svg>
+  <p class="logo">YUTORIGI</p>
+  <p class="logo-jp">〜 遊 鳥 木 〜</p>
+  <p>ヒーリング ＆ リラクゼーションサロン</p>
+  <p style="margin-top:10px;">
+    公式LINE：<a href="https://lin.ee/ZNgeYzl" target="_blank">https://lin.ee/ZNgeYzl</a>
+  </p>
+  <p style="margin-top:12px;font-size:.58rem;opacity:.5;">© YUTORIGI All Rights Reserved.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
